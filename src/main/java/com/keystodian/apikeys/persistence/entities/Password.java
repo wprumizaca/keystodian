@@ -12,9 +12,11 @@ import java.time.LocalDateTime;
 @Table(name="passwords")
 public class Password {
 
-    @Id
-    private String user_id;
 
+//    @Id @GeneratedValue(strategy = GenerationType.IDENTITY )
+//    private Long id;
+
+    @Id
     private String app;
 
     private String password;

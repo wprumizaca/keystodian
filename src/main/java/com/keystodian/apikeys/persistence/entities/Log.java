@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 @Table(name = "logs")
 public class Log implements Serializable {
 
-    @Id
-    private String user_id;
 
     @Id
     private LocalDateTime log_time;
