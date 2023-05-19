@@ -1,4 +1,4 @@
-package com.keystodian.apikeys.expose;
+package com.keystodian.apikeys.expose.controllers;
 
 import com.keystodian.apikeys.services.impl.UserService;
 import lombok.RequiredArgsConstructor;
