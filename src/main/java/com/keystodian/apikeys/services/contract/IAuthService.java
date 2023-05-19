@@ -4,7 +4,7 @@ import com.keystodian.apikeys.persistence.entities.User;
 
 import java.util.List;
 
-public interface IUserService {
+public interface IAuthService {
 
     List<User> getAll();
 

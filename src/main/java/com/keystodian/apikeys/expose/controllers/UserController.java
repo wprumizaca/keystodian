@@ -1,6 +1,6 @@
 package com.keystodian.apikeys.expose.controllers;
 
-import com.keystodian.apikeys.services.impl.UserService;
+import com.keystodian.apikeys.services.impl.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final AuthService userService;
 
     @GetMapping("/users")
     ResponseEntity<?> get(){
