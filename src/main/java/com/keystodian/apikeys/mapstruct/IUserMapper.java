@@ -2,9 +2,11 @@ package com.keystodian.apikeys.mapstruct;
 
 import com.keystodian.apikeys.expose.dto.UserResponse;
 import com.keystodian.apikeys.persistence.entities.User;
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+@Mapper(componentModel = "spring")
 public interface IUserMapper {
 
     /**
