@@ -10,12 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements IAuthService {
+public class AuthService  {
 
-    private final UserRepository userRepository;
 
-    @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
 }

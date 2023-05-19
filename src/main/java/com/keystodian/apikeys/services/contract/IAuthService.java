@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface IAuthService {
 
-    List<User> getAll();
+
 
 }
