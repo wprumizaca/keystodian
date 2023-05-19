@@ -1,4 +1,4 @@
-package com.keystodian.apikeys.expose.dto;
+package com.keystodian.apikeys.expose.dto.dtoUser;
 
 import lombok.Getter;
 import lombok.NonNull;
