@@ -54,7 +54,7 @@ public class SecurityConfig {
                 //EnPoints Privados
                 .mvcMatchers("/users/**").hasRole(UserRole.MASTER.toString())
                 .mvcMatchers("/orders_details/**").hasRole(UserRole.CLIENT.toString())
-                .mvcMatchers("/users/**").hasRole(UserRole.ADMIN_USER.toString())
+                .mvcMatchers("/passwords/**").hasRole(UserRole.ADMIN_USER.toString())
                 .mvcMatchers("/products/**").hasRole(UserRole.ADMIN_APP.toString())
 
                 .anyRequest().authenticated()

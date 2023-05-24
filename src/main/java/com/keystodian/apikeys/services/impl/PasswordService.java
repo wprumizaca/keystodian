@@ -1,12 +1,15 @@
 package com.keystodian.apikeys.services.impl;
 
 import com.keystodian.apikeys.exceptions.AppNotFoundException;
+import com.keystodian.apikeys.exceptions.NombreExistenteException;
+import com.keystodian.apikeys.expose.dto.dtoPassword.CreatePasswordRequest;
 import com.keystodian.apikeys.expose.dto.dtoPassword.PasswordResponse;
 import com.keystodian.apikeys.mapstruct.IPasswordMapper;
 import com.keystodian.apikeys.persistence.entities.Password;
 import com.keystodian.apikeys.persistence.repository.PasswordRepository;
 import com.keystodian.apikeys.services.contract.IPasswordService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,10 +36,30 @@ public class PasswordService implements IPasswordService {
     @Override
     public PasswordResponse findByApp(String app) {
 
-        Password password = passwordRepository.findById(app).orElseThrow(null);
+        Password password = passwordRepository.findById(app).orElseThrow(()-> new AppNotFoundException(app));
 
         return  iPasswordMapper.mapToDto(password); //devuelve el DTO
     }
+
+    @Override
+    public PasswordResponse saveApp(CreatePasswordRequest createPasswordRequest) {
+        Password password = new Password();
+
+        password.setApp(createPasswordRequest.getApp());
+        password.setPassword(createPasswordRequest.getPassword());
+
+        try {
+            passwordRepository.save(password);
+            PasswordResponse getUserDTO = iPasswordMapper.mapToDto(password);
+            return getUserDTO;
+
+        } catch (DataIntegrityViolationException ex) { //Se usa para el Nombre de usuario (unique=true)
+            throw  new NombreExistenteException(); //CAMBIAR A APPEXISTENT!
+        }
+    }
+
+
+
 
     @Override
     public void deleteByApp(String app) {

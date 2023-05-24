@@ -2,6 +2,7 @@ package com.keystodian.apikeys.services.contract;
 
 import com.keystodian.apikeys.expose.dto.dtoCambios.UpdateUserEmailDTO;
 import com.keystodian.apikeys.expose.dto.dtoCambios.UpdateUserPasswDTO;
+import com.keystodian.apikeys.expose.dto.dtoPassword.CreatePasswordRequest;
 import com.keystodian.apikeys.expose.dto.dtoPassword.PasswordResponse;
 import com.keystodian.apikeys.expose.dto.dtoUser.UserResponse;
 import com.keystodian.apikeys.persistence.entities.Password;
@@ -15,6 +16,7 @@ public interface IPasswordService {
 
     PasswordResponse findByApp(String app);
 
+    PasswordResponse saveApp(CreatePasswordRequest createPasswordRequest);
 
     void deleteByApp(String app);
 
