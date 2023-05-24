@@ -69,4 +69,12 @@ public class GlobalControllerAdvice {
 
     }
 
+    @ExceptionHandler(AppNotFoundException.class)
+    public ResponseEntity<ApiError> handleAppNotFoundException(AppNotFoundException ex){
+
+        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage());
+
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+
+    }
 }
