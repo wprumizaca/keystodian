@@ -18,7 +18,6 @@ public interface IPasswordMapper {
      */
 
     @Mappings({
-
             @Mapping(target = "app", source = "app"),
             @Mapping(target = "password", source = "password"),
             @Mapping(target = "creation_date", source = "creation_date")

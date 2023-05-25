@@ -6,6 +6,7 @@ import com.keystodian.apikeys.expose.dto.dtoPassword.CreatePasswordRequest;
 import com.keystodian.apikeys.expose.dto.dtoPassword.PasswordResponse;
 import com.keystodian.apikeys.mapstruct.IPasswordMapper;
 import com.keystodian.apikeys.persistence.entities.Password;
+import com.keystodian.apikeys.persistence.entities.User;
 import com.keystodian.apikeys.persistence.repository.PasswordRepository;
 import com.keystodian.apikeys.services.contract.IPasswordService;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +44,11 @@ public class PasswordService implements IPasswordService {
 
     @Override
     public PasswordResponse saveApp(CreatePasswordRequest createPasswordRequest) {
-        Password password = new Password();
+        User user = new User();
+        user.setId(createPasswordRequest.getId());
 
+        Password password = new Password();
+        password.setUser(user);
         password.setApp(createPasswordRequest.getApp());
         password.setPassword(createPasswordRequest.getPassword());
 

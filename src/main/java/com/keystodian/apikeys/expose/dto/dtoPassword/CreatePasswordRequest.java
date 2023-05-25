@@ -10,6 +10,9 @@ import javax.validation.constraints.NotBlank;
 public class CreatePasswordRequest {
 
     @NonNull
+    private Long id;
+
+    @NonNull
     private String app;
 
     @NotBlank
