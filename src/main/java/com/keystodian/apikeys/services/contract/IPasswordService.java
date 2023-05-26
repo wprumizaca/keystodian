@@ -4,9 +4,10 @@ import com.keystodian.apikeys.expose.dto.dtoCambios.UpdateUserEmailDTO;
 import com.keystodian.apikeys.expose.dto.dtoCambios.UpdateUserPasswDTO;
 import com.keystodian.apikeys.expose.dto.dtoPassword.CreatePasswordRequest;
 import com.keystodian.apikeys.expose.dto.dtoPassword.PasswordResponse;
+import com.keystodian.apikeys.expose.dto.dtoPassword.UpdateContraseniaDTO;
 import com.keystodian.apikeys.expose.dto.dtoUser.UserResponse;
 import com.keystodian.apikeys.persistence.entities.Password;
-import com.keystodian.apikeys.persistence.entities.User;
+
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public interface IPasswordService {
     PasswordResponse findByApp(String app);
 
     PasswordResponse saveApp(CreatePasswordRequest createPasswordRequest);
+
+    PasswordResponse editContraseña(UpdateContraseniaDTO updateContraseniaDTO, String app);
 
     void deleteByApp(String app);
 

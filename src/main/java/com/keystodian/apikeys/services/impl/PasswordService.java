@@ -4,6 +4,7 @@ import com.keystodian.apikeys.exceptions.AppNotFoundException;
 import com.keystodian.apikeys.exceptions.NombreExistenteException;
 import com.keystodian.apikeys.expose.dto.dtoPassword.CreatePasswordRequest;
 import com.keystodian.apikeys.expose.dto.dtoPassword.PasswordResponse;
+import com.keystodian.apikeys.expose.dto.dtoPassword.UpdateContraseniaDTO;
 import com.keystodian.apikeys.mapstruct.IPasswordMapper;
 import com.keystodian.apikeys.persistence.entities.Password;
 import com.keystodian.apikeys.persistence.entities.User;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,7 +53,7 @@ public class PasswordService implements IPasswordService {
         password.setUser(user);
         password.setApp(createPasswordRequest.getApp());
         password.setPassword(createPasswordRequest.getPassword());
-
+        password.setCreation_date(LocalDateTime.now());
         try {
             passwordRepository.save(password);
             PasswordResponse getUserDTO = iPasswordMapper.mapToDto(password);
@@ -62,7 +64,16 @@ public class PasswordService implements IPasswordService {
         }
     }
 
+    @Override
+    public PasswordResponse editContraseña(UpdateContraseniaDTO updateContraseniaDTO, String app) {
 
+        Password password = passwordRepository.findById(app).orElseThrow(()-> new AppNotFoundException(app));
+
+        password.setPassword(updateContraseniaDTO.getPassword());
+        passwordRepository.save(password);
+
+        return iPasswordMapper.mapToDto(password);
+    }
 
 
     @Override

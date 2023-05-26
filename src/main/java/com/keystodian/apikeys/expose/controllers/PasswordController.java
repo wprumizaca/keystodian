@@ -1,7 +1,10 @@
 package com.keystodian.apikeys.expose.controllers;
 
+import com.keystodian.apikeys.expose.dto.dtoCambios.UpdateUserPasswDTO;
 import com.keystodian.apikeys.expose.dto.dtoPassword.CreatePasswordRequest;
 import com.keystodian.apikeys.expose.dto.dtoPassword.PasswordResponse;
+import com.keystodian.apikeys.expose.dto.dtoPassword.UpdateContraseniaDTO;
+import com.keystodian.apikeys.expose.dto.dtoUser.UserResponse;
 import com.keystodian.apikeys.persistence.repository.PasswordRepository;
 import com.keystodian.apikeys.services.impl.PasswordService;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +45,13 @@ public class PasswordController {
         return new ResponseEntity<PasswordResponse>(passwordService.saveApp(newuser), HttpStatus.CREATED);
 
     }
+
+    @PutMapping("/{app}")
+    public ResponseEntity<PasswordResponse> updatePassword(@RequestBody UpdateContraseniaDTO updateContraseniaDTO, @PathVariable String app){
+        return new ResponseEntity<PasswordResponse>(passwordService.editContraseña(updateContraseniaDTO,app), HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/{app}")
     public ResponseEntity<Void> deleteById(@PathVariable String app){
         passwordService.deleteByApp(app);
