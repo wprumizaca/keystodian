@@ -77,4 +77,13 @@ public class GlobalControllerAdvice {
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
 
     }
+
+    @ExceptionHandler(LogNotFoundException.class)
+    public ResponseEntity<ApiError> handleLogNotFoundException(LogNotFoundException ex){
+
+        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage());
+
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+
+    }
 }

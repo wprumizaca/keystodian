@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 @Entity
-@Table(name="passwords")
-public class Password {
+@Table(name="apps")
+public class App {
 
 
 //    @Id @GeneratedValue(strategy = GenerationType.IDENTITY )

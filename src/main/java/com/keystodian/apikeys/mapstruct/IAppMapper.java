@@ -1,15 +1,13 @@
 package com.keystodian.apikeys.mapstruct;
 
-import com.keystodian.apikeys.expose.dto.dtoPassword.PasswordResponse;
-import com.keystodian.apikeys.expose.dto.dtoUser.UserResponse;
-import com.keystodian.apikeys.persistence.entities.Password;
-import com.keystodian.apikeys.persistence.entities.User;
+import com.keystodian.apikeys.expose.dto.dtoApp.AppResponse;
+import com.keystodian.apikeys.persistence.entities.App;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
-public interface IPasswordMapper {
+public interface IAppMapper {
 
 
     /**
@@ -22,5 +20,5 @@ public interface IPasswordMapper {
             @Mapping(target = "password", source = "password"),
             @Mapping(target = "creation_date", source = "creation_date")
     })
-    PasswordResponse mapToDto(Password password);
+    AppResponse mapToDto(App app);
 }

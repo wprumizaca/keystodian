@@ -1,4 +1,4 @@
-package com.keystodian.apikeys.expose.dto.dtoPassword;
+package com.keystodian.apikeys.expose.dto.dtoApp;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 
 @Getter @Setter
-public class CreatePasswordRequest {
+public class CreateAppRequest {
 
     @NonNull
     private Long id;

@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(value = "/users")
 public class UserController {
 
     private final UserService userService;
@@ -29,12 +30,6 @@ public class UserController {
         return new ResponseEntity<List<UserResponse>>(userService.findAll(), HttpStatus.OK);
     }
 
-    //Para comprobar lo que se guarda en ENTIDAD
-    @GetMapping("/us/{id}")
-    public ResponseEntity<User>find(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(userRepository.findById(id)
-                .orElseThrow(() -> new IdUserNotFoundException(id)));
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse>findById(@PathVariable Long id){

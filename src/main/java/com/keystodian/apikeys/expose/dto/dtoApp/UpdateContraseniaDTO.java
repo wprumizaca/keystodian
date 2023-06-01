@@ -1,4 +1,4 @@
-package com.keystodian.apikeys.expose.dto.dtoPassword;
+package com.keystodian.apikeys.expose.dto.dtoApp;
 
 import lombok.Getter;
 import lombok.Setter;
