@@ -56,7 +56,7 @@ public class JwtTokenProvider {
                 .setSubject(Long.toString(user.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + (jwtDurationSeconds*1000)))
-//                .claim("id", user.getId())  //todavía no se usa.
+                .claim("id", user.getId())  //todavía no se usa.
                 .claim("username", user.getUsername())
                 .claim("mail", user.getEmail())
 
