@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .mvcMatchers("/users/**").hasRole(UserRole.MASTER.toString())
                 .mvcMatchers("/orders_details/**").hasRole(UserRole.CLIENT.toString())
                 .mvcMatchers("/logs/**").hasRole(UserRole.ADMIN_USER.toString())
-                .mvcMatchers("/products/**").hasRole(UserRole.ADMIN_APP.toString())
+                .mvcMatchers("/apps/**").hasRole(UserRole.ADMIN_APP.toString())
 
                 .anyRequest().authenticated()
                 .and()

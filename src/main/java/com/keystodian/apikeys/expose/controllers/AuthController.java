@@ -77,7 +77,7 @@ public class AuthController {
             throw ex;
 
         }
-        //Para hacer la autenticación
+
         /**
          * Invoca a UserDetailsService para sacar de BBDD
          *  1. Nombre de Usuario
@@ -85,21 +85,13 @@ public class AuthController {
         Authentication authentication = authManager.authenticate(authenticationDTO);
         User user = (User) authentication.getPrincipal();
 
-        //1. aquí GENERAMOS el token desde la authentication
         String token = jwtTokenProvider.generateToken(authentication);
 
         refreshTokenService.delete(user); //Si tiene algun token de refresco lo borramo
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user); //Creamos token de refresco
 
         LoginResponse loginResponse = new LoginResponse();
-
         loginResponse.setUsername(user.getUsername());
-//        loginResponse.setRoles(user.getAuthorities()
-//                .stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .toList());   ESTO ME DABA LAS AUTHORITIES
-
-
         loginResponse.setRoles(user.getRoles().stream().map(String::valueOf)
                 .toList());
 

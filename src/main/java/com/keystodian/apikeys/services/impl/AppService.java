@@ -9,6 +9,7 @@ import com.keystodian.apikeys.mapstruct.IAppMapper;
 import com.keystodian.apikeys.persistence.entities.App;
 import com.keystodian.apikeys.persistence.entities.User;
 import com.keystodian.apikeys.persistence.repository.AppRepository;
+import com.keystodian.apikeys.security.PasswordUtils;
 import com.keystodian.apikeys.services.contract.IAppService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,6 +25,7 @@ public class AppService implements IAppService {
 
     private final AppRepository appRepository;
     private final IAppMapper iAppMapper;
+
 
 
     @Override
@@ -50,12 +52,17 @@ public class AppService implements IAppService {
         App app = new App();
         app.setUser(user);
         app.setApp(createAppRequest.getApp());
-        app.setPassword(createAppRequest.getPassword());
+        String encryptedPassword = PasswordUtils.encryptPassword(createAppRequest.getPassword());
+        app.setPassword(encryptedPassword);
         app.setCreation_date(LocalDateTime.now());
         try {
             appRepository.save(app);
-            AppResponse getUserDTO = iAppMapper.mapToDto(app);
-            return getUserDTO;
+            AppResponse getAppDTO = iAppMapper.mapToDto(app);
+
+            String decryptPassword = PasswordUtils.decryptPassword(getAppDTO.getPassword());
+            getAppDTO.setPassword(decryptPassword);
+
+            return getAppDTO;
 
         } catch (DataIntegrityViolationException ex) { //Se usa para el Nombre de usuario (unique=true)
             throw  new NombreExistenteException(); //CAMBIAR A APPEXISTENT!

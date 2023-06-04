@@ -40,11 +40,6 @@ public class AuthService implements IAuthService {
         user.setEmail(createUserDTO.getEmail());
         user.setPassword(passwordEncoder.encode(createUserDTO.getPassword()));
         user.setRoles(roles);
-//
-//            User user1 = new User(createUserDTO.getUsername(),
-//                    createUserDTO.getEmail(),
-//                    passwordEncoder.encode(createUserDTO.getPassword()),
-//                    List.of(UserRole.ADMIN));
 
         try {
             authRepository.save(user);
