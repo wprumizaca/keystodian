@@ -14,6 +14,8 @@ public interface IAppService {
 
     AppResponse findByApp(String app);
 
+    List<AppResponse> findByIdUser(Long id);
+
     AppResponse saveApp(CreateAppRequest createAppRequest);
 
     AppResponse editContraseña(UpdateContraseniaDTO updateContraseniaDTO, String app);

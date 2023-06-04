@@ -9,6 +9,7 @@ import com.keystodian.apikeys.mapstruct.IAppMapper;
 import com.keystodian.apikeys.persistence.entities.App;
 import com.keystodian.apikeys.persistence.entities.User;
 import com.keystodian.apikeys.persistence.repository.AppRepository;
+import com.keystodian.apikeys.persistence.repository.UserRepository;
 import com.keystodian.apikeys.security.PasswordUtils;
 import com.keystodian.apikeys.services.contract.IAppService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class AppService implements IAppService {
 
     private final AppRepository appRepository;
     private final IAppMapper iAppMapper;
-
+    private final UserRepository userRepository;
 
 
     @Override
@@ -42,6 +43,20 @@ public class AppService implements IAppService {
         App password = appRepository.findById(app).orElseThrow(()-> new AppNotFoundException(app));
 
         return  iAppMapper.mapToDto(password); //devuelve el DTO
+    }
+
+    @Override
+    public List<AppResponse> findByIdUser(Long id) {
+        if(userRepository.existsById(id)){
+
+            return appRepository.findByUserId(id)
+                            .stream()
+                                    .map(app -> iAppMapper.mapToDto(app))
+                    .collect(Collectors.toList());
+
+        }else{
+            return null;
+        }
     }
 
     @Override

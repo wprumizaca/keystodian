@@ -18,25 +18,22 @@ import java.util.List;
 public class AppController {
 
     private final AppService passwordService;
-    private final AppRepository appRepository;
+
 
     @GetMapping
     public ResponseEntity<List<AppResponse>> getAll(){
         return new ResponseEntity<List<AppResponse>>(passwordService.findAll(), HttpStatus.OK);
     }
 
-    //Para comprobar lo que se guarda en ENTIDAD
-//    @GetMapping("/{app}")
-//    public ResponseEntity<Password>find(@PathVariable String app){
-//        return ResponseEntity.status(HttpStatus.OK).body(passwordRepository.findById(app)
-//                .orElseThrow(() -> new AppNotFoundException(app)));
-//    }
-
     @GetMapping("/{app}")
     public ResponseEntity<AppResponse>findById(@PathVariable String app){
         return ResponseEntity.status(HttpStatus.OK).body(passwordService.findByApp(app));
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<AppResponse>>findById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(passwordService.findByIdUser(id));
+    }
 
     @PostMapping("/register")
     public ResponseEntity<AppResponse> save_master(@RequestBody CreateAppRequest newuser){

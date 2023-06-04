@@ -12,10 +12,6 @@ import java.time.LocalDateTime;
 @Table(name="apps")
 public class App {
 
-
-//    @Id @GeneratedValue(strategy = GenerationType.IDENTITY )
-//    private Long id;
-
     @Id
     private String app;
 
