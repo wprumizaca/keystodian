@@ -32,7 +32,7 @@ public class LogController {
 
 
     @GetMapping("/{log_time}")
-    public ResponseEntity<LogResponse>find(@PathVariable LocalDateTime log_time){
+    public ResponseEntity<LogResponse>find(@PathVariable String log_time){
         return ResponseEntity.status(HttpStatus.OK).body(logService.findById(log_time));
     }
 

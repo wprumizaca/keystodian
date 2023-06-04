@@ -16,6 +16,8 @@ import org.mapstruct.control.MappingControl;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,9 +38,17 @@ public class LogService implements ILogService {
     }
 
     @Override
-    public LogResponse findById(LocalDateTime log_time) {
-        Log log = logRepository.findById(log_time).orElseThrow(() -> new LogNotFoundException(log_time));
+    public LogResponse findById(String log_time) {
+//        Log log = logRepository.findById(log_time).orElseThrow(() -> new LogNotFoundException(log_time));
+//        return iLogMapper.mapToDto(log);
+
+//        String encodedLogTime = URLEncoder.encode(log_time, StandardCharsets.ISO_8859_1);
+        LocalDateTime decodedLogTime = LocalDateTime.parse(log_time); // Asegúrate de utilizar el formato correcto para decodificar el valor
+
+        Log log = logRepository.findById(decodedLogTime).orElseThrow(() -> new LogNotFoundException(decodedLogTime));
         return iLogMapper.mapToDto(log);
+
+        //NO FUNCIONA
     }
 
     @Override

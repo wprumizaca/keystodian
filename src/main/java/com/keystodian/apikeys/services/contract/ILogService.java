@@ -15,7 +15,7 @@ public interface ILogService {
 
     List<LogResponse> findAll();
 
-    LogResponse findById(LocalDateTime log_time);
+    LogResponse findById(String log_time);
 
     LogResponse save(CreateLogRequest createLogRequest);
 
