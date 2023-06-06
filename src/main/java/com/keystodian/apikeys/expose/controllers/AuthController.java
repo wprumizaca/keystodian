@@ -8,7 +8,6 @@ import com.keystodian.apikeys.expose.dto.dtoUser.CreateUserRequest;
 import com.keystodian.apikeys.expose.dto.dtoUser.UserResponse;
 import com.keystodian.apikeys.persistence.entities.RefreshToken;
 import com.keystodian.apikeys.persistence.entities.User;
-import com.keystodian.apikeys.security.JwtTokenProvider;
 import com.keystodian.apikeys.services.impl.AuthService;
 import com.keystodian.apikeys.services.impl.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
