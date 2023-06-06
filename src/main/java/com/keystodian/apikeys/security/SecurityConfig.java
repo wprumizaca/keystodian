@@ -52,10 +52,10 @@ public class SecurityConfig {
                 .permitAll() //Habilitamos controladores.//Autorizamos Controladores. En este caso controlador (/auth/**).  Esto sirve para que se pueda Autenticar cualquiera (EVIDENTE).
 
                 //EnPoints Privados
-                .mvcMatchers("/users/**").hasRole(UserRole.MASTER.toString())
-                .mvcMatchers("/orders_details/**").hasRole(UserRole.CLIENT.toString())
-                .mvcMatchers("/logs/**").hasRole(UserRole.ADMIN_USER.toString())
-                .mvcMatchers("/apps/**").hasRole(UserRole.ADMIN_APP.toString())
+                .mvcMatchers("/users/**","/logs/**","/apps/**").hasRole(UserRole.MASTER.toString())
+                .mvcMatchers("/apps/**").hasRole(UserRole.CLIENT.toString())
+                .mvcMatchers("/users/**").hasRole(UserRole.ADMIN_USER.toString())
+                .mvcMatchers("/apps/**","/logs/**").hasRole(UserRole.ADMIN_APP.toString())
 
                 .anyRequest().authenticated()
                 .and()
