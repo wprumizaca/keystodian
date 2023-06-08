@@ -2,6 +2,7 @@ package com.keystodian.apikeys.expose.controllers;
 
 import com.keystodian.apikeys.exceptions.IdUserNotFoundException;
 import com.keystodian.apikeys.exceptions.LogNotFoundException;
+import com.keystodian.apikeys.expose.dto.dtoAppBuena.AppBuenaResponse;
 import com.keystodian.apikeys.expose.dto.dtoLog.CreateLogRequest;
 import com.keystodian.apikeys.expose.dto.dtoLog.LogResponse;
 import com.keystodian.apikeys.expose.dto.dtoUser.UserResponse;
@@ -27,6 +28,13 @@ public class LogController {
 
     @GetMapping
     public ResponseEntity<List<LogResponse>> getAll(){
+
+
+        List<LogResponse> logResponseList = logService.findAll();
+
+        if (logResponseList.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         return new ResponseEntity<List<LogResponse>>(logService.findAll(), HttpStatus.OK);
     }
 

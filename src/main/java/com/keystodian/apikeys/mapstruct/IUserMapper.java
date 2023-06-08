@@ -17,7 +17,6 @@ public interface IUserMapper {
 
             @Mapping(target = "username", source = "username"),
             @Mapping(target = "email", source = "email"),
-            @Mapping(target = "roles", source = "roles")
     })
     UserResponse mapToDto(User user);
 }

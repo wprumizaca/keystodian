@@ -5,7 +5,6 @@ import com.keystodian.apikeys.expose.dto.dtoUser.CreateUserRequest;
 import com.keystodian.apikeys.expose.dto.dtoUser.UserResponse;
 import com.keystodian.apikeys.mapstruct.IUserMapper;
 import com.keystodian.apikeys.persistence.entities.User;
-import com.keystodian.apikeys.persistence.entities.UserRole;
 import com.keystodian.apikeys.persistence.repository.AuthRepository;
 import com.keystodian.apikeys.services.contract.IAuthService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -34,12 +32,12 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public UserResponse save(CreateUserRequest createUserDTO, Set<UserRole> roles) {
+    public UserResponse save(CreateUserRequest createUserDTO) {
         User user = new User();
         user.setUsername(createUserDTO.getUsername());
         user.setEmail(createUserDTO.getEmail());
         user.setPassword(passwordEncoder.encode(createUserDTO.getPassword()));
-        user.setRoles(roles);
+
 
         try {
             authRepository.save(user);
@@ -51,20 +49,11 @@ public class AuthService implements IAuthService {
         }
     }
 
-    public UserResponse saveClient(CreateUserRequest createUserDTO){
-        return save(createUserDTO, Set.of(UserRole.CLIENT)) ;
-    }
 
     public UserResponse saveMaster(CreateUserRequest createUserDTO){
-        return save(createUserDTO, Set.of(UserRole.MASTER));
+        return save(createUserDTO);
     }
 
-    public UserResponse saveAdminApp(CreateUserRequest createUserDTO){
-        return save(createUserDTO, Set.of(UserRole.ADMIN_APP)) ;
-    }
 
-    public UserResponse saveAdminUser(CreateUserRequest createUserDTO){
-        return save(createUserDTO, Set.of(UserRole.ADMIN_USER));
-    }
 
 }

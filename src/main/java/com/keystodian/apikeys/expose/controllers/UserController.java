@@ -4,6 +4,7 @@ package com.keystodian.apikeys.expose.controllers;
 import com.keystodian.apikeys.exceptions.IdUserNotFoundException;
 import com.keystodian.apikeys.expose.dto.dtoCambios.UpdateUserEmailDTO;
 import com.keystodian.apikeys.expose.dto.dtoCambios.UpdateUserPasswDTO;
+import com.keystodian.apikeys.expose.dto.dtoLog.LogResponse;
 import com.keystodian.apikeys.expose.dto.dtoUser.UserResponse;
 import com.keystodian.apikeys.persistence.entities.User;
 import com.keystodian.apikeys.persistence.repository.UserRepository;
@@ -27,6 +28,13 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAll(){
+
+        List<UserResponse> userResponseList = userService.findAll();
+
+        if (userResponseList.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
         return new ResponseEntity<List<UserResponse>>(userService.findAll(), HttpStatus.OK);
     }
 
