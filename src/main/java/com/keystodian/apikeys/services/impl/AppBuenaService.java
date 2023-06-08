@@ -8,6 +8,7 @@ import com.keystodian.apikeys.expose.dto.dtoAppBuena.CreateAppBuenaRequest;
 import com.keystodian.apikeys.expose.dto.dtoAppBuena.UpdateAppBuenaContraseniaDTO;
 import com.keystodian.apikeys.mapstruct.IAppBuenaMapper;
 import com.keystodian.apikeys.persistence.entities.AppBuena;
+import com.keystodian.apikeys.persistence.entities.ClaveCompuestaAppBuena;
 import com.keystodian.apikeys.persistence.entities.User;
 import com.keystodian.apikeys.persistence.repository.AppBuenaRepository;
 import com.keystodian.apikeys.persistence.repository.UserRepository;
@@ -41,9 +42,9 @@ public class AppBuenaService implements IAppBuenaService {
 
 
     @Override
-    public AppBuenaResponse findByApp(String app) {
+    public AppBuenaResponse findByApp(ClaveCompuestaAppBuena clave) {
 
-        AppBuena password = appBuenaRepository.findById(app).orElseThrow(()-> new AppNotFoundException(app));
+        AppBuena password = appBuenaRepository.findById(clave);
 
         return  iAppBuenaMapper.mapToDto(password); //devuelve el DTO
     }
@@ -64,13 +65,16 @@ public class AppBuenaService implements IAppBuenaService {
 
     @Override
     public AppBuenaResponse saveApp(CreateAppBuenaRequest createAppBuenaRequest) {
-        User user = new User();
-        user.setId(createAppBuenaRequest.getId());
 
         AppBuena appBuena = new AppBuena();
-        appBuena.setUser(user);
-        appBuena.setPlataforma(createAppBuenaRequest.getPlataforma());
-        appBuena.setUsuario(createAppBuenaRequest.getUsuario());
+
+        ClaveCompuestaAppBuena claveprimaria = new ClaveCompuestaAppBuena();
+        claveprimaria.setPlataforma(createAppBuenaRequest.getPlataforma());
+        claveprimaria.setUsuario(createAppBuenaRequest.getUsuario());
+        claveprimaria.setId(createAppBuenaRequest.getId());
+
+        appBuena.setClaveprimaria(claveprimaria);
+
         String encryptedPassword = PasswordUtils.encryptPassword(createAppBuenaRequest.getPassword());
         appBuena.setPassword(encryptedPassword);
 //        appBuena.setCreation_date(LocalDateTime.now());
@@ -88,29 +92,29 @@ public class AppBuenaService implements IAppBuenaService {
         }
     }
 
-    @Override
-    public AppBuenaResponse editContraseña(UpdateAppBuenaContraseniaDTO updateAppBuenaContraseniaDTO, String app) {
+//    @Override
+//    public AppBuenaResponse editContraseña(UpdateAppBuenaContraseniaDTO updateAppBuenaContraseniaDTO, String app) {
+//
+//        AppBuena password = appBuenaRepository.findById(app).orElseThrow(()-> new AppNotFoundException(app));
+//
+//        password.setPassword(updateAppBuenaContraseniaDTO.getPassword());
+//        appBuenaRepository.save(password);
+//
+//        return iAppBuenaMapper.mapToDto(password);
+//    }
 
-        AppBuena password = appBuenaRepository.findById(app).orElseThrow(()-> new AppNotFoundException(app));
 
-        password.setPassword(updateAppBuenaContraseniaDTO.getPassword());
-        appBuenaRepository.save(password);
-
-        return iAppBuenaMapper.mapToDto(password);
-    }
-
-
-    @Override
-    public void deleteByApp(String app) {
-
-        if(appBuenaRepository.existsById(app)){
-            appBuenaRepository.deleteById(app);
-        }else{
-            throw new AppNotFoundException(app);
-
-        }
-
-    }
+//    @Override
+//    public void deleteByApp(String app) {
+//
+//        if(appBuenaRepository.existsById(app)){
+//            appBuenaRepository.deleteById(app);
+//        }else{
+//            throw new AppNotFoundException(app);
+//
+//        }
+//
+//    }
 
 //    @Override
 //    public void delete(AppBuena app) {deleteByApp(app.getApp());}

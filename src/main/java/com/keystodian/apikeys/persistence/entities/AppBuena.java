@@ -10,15 +10,12 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 @Entity
-@IdClass(ClaveCompuestaAppBuena.class)
 @Table(name="apps")
 public class AppBuena {
 
-    @Id
-    private String plataforma;
 
-    @Id
-    private String usuario;
+    @EmbeddedId
+    private ClaveCompuestaAppBuena claveprimaria;
 
 
     private String password;
@@ -32,9 +29,10 @@ public class AppBuena {
 //
 //    }
 
-    @ManyToOne
-    @JoinColumn(name="id", nullable = false)//nullable false
-    private User user;
 
+
+    @ManyToOne
+    @JoinColumn(name="id", nullable = false, insertable = false, updatable = false)//nullable false
+    private User user;
 
 }

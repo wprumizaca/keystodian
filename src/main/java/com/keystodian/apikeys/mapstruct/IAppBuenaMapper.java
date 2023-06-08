@@ -16,8 +16,8 @@ public interface IAppBuenaMapper {
      */
 
     @Mappings({
-            @Mapping(target = "plataforma", source = "plataforma"),
-            @Mapping(target = "usuario", source = "usuario"),
+            @Mapping(target = "plataforma", source = "claveprimaria.plataforma"),
+            @Mapping(target = "usuario", source = "claveprimaria.usuario"),
             @Mapping(target = "password", source = "password")
     })
     AppBuenaResponse mapToDto(AppBuena appBuena);

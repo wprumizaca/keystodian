@@ -3,6 +3,8 @@ package com.keystodian.apikeys.expose.controllers;
 import com.keystodian.apikeys.expose.dto.dtoAppBuena.AppBuenaResponse;
 import com.keystodian.apikeys.expose.dto.dtoAppBuena.CreateAppBuenaRequest;
 import com.keystodian.apikeys.expose.dto.dtoAppBuena.UpdateAppBuenaContraseniaDTO;
+import com.keystodian.apikeys.persistence.entities.AppBuena;
+import com.keystodian.apikeys.persistence.entities.User;
 import com.keystodian.apikeys.services.impl.AppBuenaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,10 +31,24 @@ public class AppBuenaController {
         return new ResponseEntity<List<AppBuenaResponse>>(passwordService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/{app}")
-    public ResponseEntity<AppBuenaResponse>findById(@PathVariable String app){
-        return ResponseEntity.status(HttpStatus.OK).body(passwordService.findByApp(app));
-    }
+//    @GetMapping("/{plataforma}/{usuario}/{id}")
+//    public ResponseEntity<AppBuenaResponse>findById(@PathVariable String plataforma,@PathVariable String usuario,@PathVariable Long id){
+//
+//        AppBuena appBuena = new AppBuena();
+//        appBuena.setPlataforma(plataforma);
+//        appBuena.setUsuario(usuario);
+//
+//        User user = new User();
+//        user.setId(id);
+//
+//        appBuena.setUser(user);
+//
+//        if (appBuena == null){
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }else {
+//            return ResponseEntity.status(HttpStatus.OK).body(passwordService.findByApp(appBuena));
+//        }
+//    }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<List<AppBuenaResponse>>findById(@PathVariable Long id){
@@ -52,16 +68,16 @@ public class AppBuenaController {
 
     }
 
-    @PutMapping("/{app}")
-    public ResponseEntity<AppBuenaResponse> updatePassword(@RequestBody UpdateAppBuenaContraseniaDTO updateAppBuenaContraseniaDTO, @PathVariable String app){
-        return new ResponseEntity<AppBuenaResponse>(passwordService.editContraseña(updateAppBuenaContraseniaDTO,app), HttpStatus.OK);
-    }
+//    @PutMapping("/{app}")
+//    public ResponseEntity<AppBuenaResponse> updatePassword(@RequestBody UpdateAppBuenaContraseniaDTO updateAppBuenaContraseniaDTO, @PathVariable String app){
+//        return new ResponseEntity<AppBuenaResponse>(passwordService.editContraseña(updateAppBuenaContraseniaDTO,app), HttpStatus.OK);
+//    }
 
 
-    @DeleteMapping("/{app}")
-    public ResponseEntity<Void> deleteById(@PathVariable String app){
-        passwordService.deleteByApp(app);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-    }
+//    @DeleteMapping("/{app}")
+//    public ResponseEntity<Void> deleteById(@PathVariable String app){
+//        passwordService.deleteByApp(app);
+//        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+//    }
 
 }
