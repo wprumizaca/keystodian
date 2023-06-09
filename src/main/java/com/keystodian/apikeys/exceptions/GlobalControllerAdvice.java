@@ -86,4 +86,13 @@ public class GlobalControllerAdvice {
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
 
     }
+
+    @ExceptionHandler(AppCREATEDException.class)
+    public ResponseEntity<ApiError> handleAppCREATEDException(AppCREATEDException ex){
+
+        ApiError apiError = new ApiError(HttpStatus.CREATED, ex.getMessage());
+
+        return  ResponseEntity.status(HttpStatus.CREATED).body(apiError);
+
+    }
 }

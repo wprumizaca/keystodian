@@ -64,27 +64,32 @@ public class AppBuenaService implements IAppBuenaService {
 
     @Override
     public AppBuenaResponse saveApp(CreateAppBuenaRequest createAppBuenaRequest) {
-        User user = new User();
-        user.setId(createAppBuenaRequest.getId());
+        if (userRepository.existsById(createAppBuenaRequest.getId())){
+            User user = new User();
+            user.setId(createAppBuenaRequest.getId());
 
-        AppBuena appBuena = new AppBuena();
-        appBuena.setUser(user);
-        appBuena.setPlataforma(createAppBuenaRequest.getPlataforma());
-        appBuena.setUsuario(createAppBuenaRequest.getUsuario());
-        String encryptedPassword = PasswordUtils.encryptPassword(createAppBuenaRequest.getPassword());
-        appBuena.setPassword(encryptedPassword);
+            AppBuena appBuena = new AppBuena();
+            appBuena.setUser(user);
+            appBuena.setPlataforma(createAppBuenaRequest.getPlataforma());
+            appBuena.setUsuario(createAppBuenaRequest.getUsuario());
+            String encryptedPassword = PasswordUtils.encryptPassword(createAppBuenaRequest.getPassword());
+            appBuena.setPassword(encryptedPassword);
 //        appBuena.setCreation_date(LocalDateTime.now());
-        try {
-            appBuenaRepository.save(appBuena);
-            AppBuenaResponse getAppDTO = iAppBuenaMapper.mapToDto(appBuena);
+            try {
+                appBuenaRepository.save(appBuena);
+                AppBuenaResponse getAppDTO = iAppBuenaMapper.mapToDto(appBuena);
 
-            String decryptPassword = PasswordUtils.decryptPassword(getAppDTO.getPassword());
-            getAppDTO.setPassword(decryptPassword);
+                String decryptPassword = PasswordUtils.decryptPassword(getAppDTO.getPassword());
+                getAppDTO.setPassword(decryptPassword);
 
-            return getAppDTO;
+                return getAppDTO;
 
-        } catch (DataIntegrityViolationException ex) { //Se usa para el Nombre de usuario (unique=true)
-            throw  new NombreExistenteException(); //CAMBIAR A APPEXISTENT!
+            } catch (DataIntegrityViolationException ex) { //Se usa para el Nombre de usuario (unique=true)
+                throw  new NombreExistenteException(); //CAMBIAR A APPEXISTENT!
+            }
+
+        }else{
+            throw new IdUserNotFoundException(createAppBuenaRequest.getId());
         }
     }
 

@@ -1,5 +1,6 @@
 package com.keystodian.apikeys.expose.controllers;
 
+import com.keystodian.apikeys.exceptions.AppCREATEDException;
 import com.keystodian.apikeys.expose.dto.dtoAppBuena.AppBuenaResponse;
 import com.keystodian.apikeys.expose.dto.dtoAppBuena.CreateAppBuenaRequest;
 import com.keystodian.apikeys.expose.dto.dtoAppBuena.UpdateAppBuenaContraseniaDTO;
@@ -25,8 +26,10 @@ public class AppBuenaController {
 
         if (appBuenaResponseList.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }else{
+            return new ResponseEntity<List<AppBuenaResponse>>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<AppBuenaResponse>>(passwordService.findAll(), HttpStatus.OK);
+
     }
 
     @GetMapping("/{app}")
@@ -48,7 +51,13 @@ public class AppBuenaController {
 
     @PostMapping("/register")
     public ResponseEntity<AppBuenaResponse> save_master(@RequestBody CreateAppBuenaRequest newuser){
-        return new ResponseEntity<AppBuenaResponse>(passwordService.saveApp(newuser), HttpStatus.CREATED);
+
+        passwordService.saveApp(newuser);
+
+//        return ResponseEntity.status(HttpStatus.CREATED).build();
+       return new ResponseEntity<AppBuenaResponse>(HttpStatus.CREATED);
+
+
 
     }
 
