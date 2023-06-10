@@ -52,10 +52,25 @@ public class AppBuenaService implements IAppBuenaService {
     public List<AppBuenaResponse> findByIdUser(Long id) {
         if(userRepository.existsById(id)){
 
-            return appBuenaRepository.findByUserId(id)
-                            .stream()
-                                    .map(app -> iAppBuenaMapper.mapToDto(app))
+            List<AppBuena> appBuenaList = appBuenaRepository.findByUserId(id);
+
+            List<AppBuenaResponse> responseList = appBuenaList
+                    .stream()
+                    .map(app -> iAppBuenaMapper.mapToDto(app))
                     .collect(Collectors.toList());
+
+
+            responseList.forEach(app -> {
+                String decryptPassword = PasswordUtils.decryptPassword(app.getPassword());
+                app.setPassword(decryptPassword);
+            });
+
+            return responseList;
+
+//            return appBuenaRepository.findByUserId(id)
+//                            .stream()
+//                                    .map(app -> iAppBuenaMapper.mapToDto(app))
+//                    .collect(Collectors.toList());
 
         }else{
             throw new IdUserNotFoundException(id);
