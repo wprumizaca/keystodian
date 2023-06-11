@@ -7,4 +7,6 @@ import lombok.Setter;
 public class UpdateAppBuenaContraseniaDTO {
 
     private String password;
+    private String usuario;
+    private String plataforma;
 }

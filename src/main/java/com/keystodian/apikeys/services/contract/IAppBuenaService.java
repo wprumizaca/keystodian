@@ -17,7 +17,7 @@ public interface IAppBuenaService {
 
     AppBuenaResponse saveApp(CreateAppBuenaRequest createAppBuenaRequest);
 
-    AppBuenaResponse editContraseña(UpdateAppBuenaContraseniaDTO updateAppBuenaContraseniaDTO, String app);
+    AppBuenaResponse editContraseña(UpdateAppBuenaContraseniaDTO updateAppBuenaContraseniaDTO, Long id);
 
     void deleteByApp(String app);
 

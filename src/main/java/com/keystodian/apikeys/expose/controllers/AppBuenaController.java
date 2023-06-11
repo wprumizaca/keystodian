@@ -57,13 +57,13 @@ public class AppBuenaController {
 //        return ResponseEntity.status(HttpStatus.CREATED).build();
        return new ResponseEntity<AppBuenaResponse>(HttpStatus.CREATED);
 
-
-
     }
 
-    @PutMapping("/{app}")
-    public ResponseEntity<AppBuenaResponse> updatePassword(@RequestBody UpdateAppBuenaContraseniaDTO updateAppBuenaContraseniaDTO, @PathVariable String app){
-        return new ResponseEntity<AppBuenaResponse>(passwordService.editContraseña(updateAppBuenaContraseniaDTO,app), HttpStatus.OK);
+    @PutMapping("/editpassword/{id}")
+    public ResponseEntity<AppBuenaResponse> updatePassword(@RequestBody UpdateAppBuenaContraseniaDTO updateAppBuenaContraseniaDTO, @PathVariable Long id){
+
+        passwordService.editContraseña(updateAppBuenaContraseniaDTO,id);
+        return new ResponseEntity<AppBuenaResponse>(HttpStatus.NO_CONTENT);
     }
 
 

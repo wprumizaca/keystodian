@@ -95,4 +95,13 @@ public class GlobalControllerAdvice {
         return  ResponseEntity.status(HttpStatus.CREATED).body(apiError);
 
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiError> handleUserNotFoundException(UserNotFoundException ex){
+
+        ApiError apiError = new ApiError(HttpStatus.CREATED, ex.getMessage());
+
+        return  ResponseEntity.status(HttpStatus.CREATED).body(apiError);
+
+    }
 }

@@ -3,6 +3,7 @@ package com.keystodian.apikeys.services.impl;
 import com.keystodian.apikeys.exceptions.AppNotFoundException;
 import com.keystodian.apikeys.exceptions.IdUserNotFoundException;
 import com.keystodian.apikeys.exceptions.NombreExistenteException;
+import com.keystodian.apikeys.exceptions.UserNotFoundException;
 import com.keystodian.apikeys.expose.dto.dtoAppBuena.AppBuenaResponse;
 import com.keystodian.apikeys.expose.dto.dtoAppBuena.CreateAppBuenaRequest;
 import com.keystodian.apikeys.expose.dto.dtoAppBuena.UpdateAppBuenaContraseniaDTO;
@@ -109,14 +110,59 @@ public class AppBuenaService implements IAppBuenaService {
     }
 
     @Override
-    public AppBuenaResponse editContraseña(UpdateAppBuenaContraseniaDTO updateAppBuenaContraseniaDTO, String app) {
+    public AppBuenaResponse editContraseña(UpdateAppBuenaContraseniaDTO updateAppBuenaContraseniaDTO, Long id) {
 
-        AppBuena password = appBuenaRepository.findById(app).orElseThrow(()-> new AppNotFoundException(app));
+        if(userRepository.existsById(id)){
 
-        password.setPassword(updateAppBuenaContraseniaDTO.getPassword());
-        appBuenaRepository.save(password);
+            List<AppBuena> appBuenaList = appBuenaRepository.findByUserId(id);
 
-        return iAppBuenaMapper.mapToDto(password);
+            List<AppBuenaResponse> responseList = appBuenaList
+                    .stream()
+                    .map(app -> iAppBuenaMapper.mapToDto(app))
+                    .peek(app -> {
+                        if (updateAppBuenaContraseniaDTO.getPlataforma().equals(app.getPlataforma())) {
+                            if (updateAppBuenaContraseniaDTO.getUsuario().equals(app.getUsuario())){
+                                String encryptedPassword = PasswordUtils.encryptPassword(updateAppBuenaContraseniaDTO.getPassword());
+                                app.setPassword(encryptedPassword);
+
+                            }else{
+                                throw new UserNotFoundException(updateAppBuenaContraseniaDTO.getUsuario());
+                            }
+                        }else {
+                                throw new AppNotFoundException(updateAppBuenaContraseniaDTO.getPlataforma());
+                        }
+
+                    })
+                    .collect(Collectors.toList());
+
+
+            AppBuenaResponse modifiedappBuenaResponse = responseList.stream()
+                    .filter(app -> updateAppBuenaContraseniaDTO.getUsuario().equals(app.getUsuario()))
+                    .findFirst()
+                    .orElse(null);
+
+
+            User user = new User();
+            user.setId(id);
+
+            AppBuena appBuena = new AppBuena();
+
+
+            appBuena.setUser(user);
+            appBuena.setPlataforma(modifiedappBuenaResponse.getPlataforma());
+            appBuena.setUsuario(modifiedappBuenaResponse.getUsuario());
+            appBuena.setPassword(modifiedappBuenaResponse.getPassword());
+
+            appBuenaRepository.save(appBuena);
+
+            return modifiedappBuenaResponse;
+
+        }else{
+            throw new IdUserNotFoundException(id);
+        }
+
+
+
     }
 
 
